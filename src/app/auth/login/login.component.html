@@ -1,0 +1,85 @@
+<div class="login">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="fh">
+          <div class="box">
+            <div class="logo"></div>
+
+            <h1 class="weight900">Login.</h1>
+
+            <form class="form" [formGroup]="loginForm" (submit)="login();">
+              <div *ngIf="config.step === 'workspace'">
+                <div *ngIf="rememberd.ids.length > 0 && !config.useDifferent">
+                  <p class="px16">Select an account to login</p>
+  
+                  <ul class="accounts">
+                    <li *ngFor="let account of rememberd.accounts | keyvalue;" (click)="loginViaToken(account.value.user.id)" [ngClass]="{expired: isExpired(account.value.expiry)}">
+                      <div class="avatar"></div>
+                      <p class="px18 weight900 color-n100">{{account.value.user.firstName}} {{account.value.user.lastName}}</p>
+                      <p><span class="weight700">{{account.value.user.workspace.slug}}</span>.ocms.dev</p>
+                      <span *ngIf="isExpired(account.value.expiry)" class="hint color-e100" nz-tooltip nzTooltipTitle="Logged out"><i class="icon-info"></i></span>
+                      <a class="remove color-e100" (click)="remove(account.value.user.id, $event);" *ngIf="!isExpired(account.value.expiry)"><i class="icon-trash-2"></i></a>
+                    </li>
+                  </ul>
+                  <p>
+                    <a (click)="useDifferent();">Use a different account</a>
+                  </p>
+                </div>
+                <div *ngIf="config.useDifferent || rememberd.ids.length === 0">
+                  <p class="px16">Please enter your<br />workspace name to continue</p>
+                  <div class="form-row">
+                    <div class="wrap" style="margin-bottom: 8px;">
+                      <input nz-input maxlength="32" nzSize="large" type="text" name="workspace" formControlName="workspace" placeholder="Workspace name" />
+                      <a class="hint right">Forget?</a>
+                    </div>
+                    <p *ngIf="loginForm.get('workspace').value" class="px16"><span class="weight700">{{loginForm.get('workspace').value}}</span>.ocms.dev</p>
+                    <p *ngIf="!loginForm.get('workspace').value" class="px16"><span class="weight700">&lt;workspace&gt;</span>.ocms.dev</p>
+                  </div>
+                  <div class="form-row">
+                    <button nz-button nzType="primary" nzDanger [disabled]="!loginForm.get('workspace').valid" (click)="continue('account');" [nzLoading]="config.loading" type="button" nzSize="large" nzShape="round">Continue</button>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="config.step === 'account'">
+                <p class="px16">Welcome back!</p>
+                
+                <div class="workspace">
+                  <div class="avatar"></div>
+                  <p class="px18 weight900 color-n100">{{workspace.name || '[no name]'}}</p>
+                  <p><span class="weight700">{{workspace.slug}}</span>.ocms.dev</p>
+                  <a class="hint" (click)="continue('workspace')">Not you?</a>
+                </div>
+
+                <p class="px16">Enter your login details</p>
+
+                <div class="form-row">
+                  <input nz-input nzSize="large" type="email" name="email" formControlName="email" placeholder="Email address" />
+                </div>
+
+                <div class="form-row">
+                  <input nz-input nzSize="large" type="password" name="password" formControlName="password" placeholder="Password" />
+                </div>
+
+                <!-- <div class="form-row">
+                  <label class="px16 weight400" nz-checkbox name="remember" formControlName="remember">Remember me</label>
+                </div> -->
+
+                <div class="form-row">
+                  <button nz-button nzType="primary" nzDanger [disabled]="!loginForm.valid" type="submit" nzSize="large" nzShape="round" [nzLoading]="config.loading">Login</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="link" *ngIf="config.step === 'workspace' && (rememberd.ids.length === 0 || config.useDifferent)">
+              <p class="weight700">Don't have an account?</p>
+              <p class="px18" style="margin: 8px 0 4px 0;"><a class="weight900" routerLink="/auth/register">Register for free <i class="icon-arrow-right"></i></a></p>
+              <p class="px12">It's completly free for everyone.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

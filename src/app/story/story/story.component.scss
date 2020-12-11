@@ -1,0 +1,45 @@
+@import '../../../styles/variables';
+
+.posts {
+  .post-list {
+    width: 100%;
+
+    li {
+      padding-top: 18px;
+      border-top: 1px solid $n5;
+      margin-bottom: 18px;
+
+      .info {
+        width: 100%;
+        margin-top: 12px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        
+        .user {
+          display: inline-block;
+          position: relative;
+          padding-left: 32px;
+
+          .user-image {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: $n5;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+            position: absolute;
+            top: -2px;
+            left: 0;
+          }
+        }
+
+        .sep {
+          display: inline-block;
+          margin: 0 8px;
+        }
+      }
+    }
+  }
+}

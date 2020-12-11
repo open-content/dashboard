@@ -1,0 +1,81 @@
+<div class="container posts">
+  <div class="row">
+    <div class="col-md-12">
+      <page-head title="Stories" description="All stories" [actions]="headActions">
+      </page-head>
+      <ng-template #headActions>
+        <button nz-button nzType="link" routerLink="/stories/new"
+          class="color-p100"><i class="icon-plus"
+            style="margin-right: 8px;"></i> Write story</button>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-filter>
+        <ul class="filters">
+          <li [ngClass]="{active: !params.status}" (click)="changeType();">All
+          </li>
+          <li [ngClass]="{active: params.status === 'draft'}"
+            (click)="changeType('draft');">Drafts</li>
+          <li [ngClass]="{active: params.status === 'published'}"
+            (click)="changeType('published');">Published</li>
+          <li class="sep"></li>
+          <li class="search">
+            <i class="icon-search"></i>
+            <input type="text" (keydown.enter)="onSearch();"
+              [(ngModel)]="params.q" placeholder="Search title" />
+            <button *ngIf="params.q" (click)="onSearch(true);" nz-button
+              nzType="text" nzSize="small" nzShape="circle"><i
+                class="icon-x"></i></button>
+          </li>
+        </ul>
+      </app-filter>
+      <ul class="post-list" *ngIf="stories.length > 0">
+        <li *ngFor="let story of stories" [ngClass]="{draft: !story.status}">
+          <h2>{{story.title}}</h2>
+          <p>{{story.description}}</p>
+          <div class="info">
+            <div class="user">
+              <div class="user-image"
+                [style.backgroundImage]="'url( ' + story.author.avatar + ')'">
+              </div>
+              <p class="weight700">{{story.author.firstName}}
+                {{story.author.lastName}}</p>
+            </div>
+            <span class="sep">in</span>
+            <span class="weight700 color-n75">{{story.category.name}}</span>
+            <span class="sep">&bull;</span>
+            <span *ngIf="story.status">Published</span>
+            <span *ngIf="!story.status">Draft</span>
+            <span class="sep">&bull;</span>
+            <span>{{story.createdAt | date:'fromNow'}}</span>
+            <span class="sep">&bull;</span>
+            <div class="actions">
+              <button nz-dropdown nzTrigger="click"
+                nzOverlayClassName="dropdown" [nzDropdownMenu]="menu" nz-button
+                nzType="text" nzSize="small" nzShape="circle"><i
+                  class="icon-chevron-down"></i></button>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li nz-menu-item routerLink="/stories/{{story._id}}"><i
+                      class="ico-left icon-edit"></i> Edit post</li>
+                  <li nz-menu-item (click)="confirmDelete(story._id);"
+                    class="color-e100"><i class="ico-left icon-trash-2"></i>
+                    Delete story</li>
+                </ul>
+              </nz-dropdown-menu>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <ul class="post-list" *ngIf="stories.length === 0">
+        <li>
+          <app-empty title="Nothing to see here" description="There are no stories, click the button below to write one">
+            <button nz-button routerLink="/stories/new">Write a story</button>
+          </app-empty>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

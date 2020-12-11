@@ -1,0 +1,87 @@
+@mixin font($family, $path, $weight, $style){
+  font-family: $family;
+  src:local($family),url($path + ".svg");
+  src:url($path + ".eot?#iefix") format("embedded-opentype"),
+      url($path + ".woff") format("woff"),
+      url($path + ".ttf") format("truetype"),
+      url($path + ".svg#dripicons-v2") format("svg");
+  font-weight: $weight;
+  font-style: $style;
+}
+
+@mixin font-woff($family, $path, $weight, $style){
+  font-family: $family;
+  src:local($family), url($path + ".woff") format("woff"), url($path + ".woff2") format("woff2");
+  font-weight: $weight;
+  font-style: $style;
+}
+
+@mixin font-ttf($family, $path, $weight, $style){
+  font-family: $family;
+  src:local($family), url($path + ".ttf") format("truetype");
+  font-weight: $weight;
+  font-style: $style;
+}
+
+@mixin weight(){
+  @each $weight in $weights{
+    .weight#{$weight} {
+      font-weight: $weight !important;
+    }
+  }
+}
+
+@mixin font-sizes(){
+  @each $name, $size in $font-sizes {
+    .px#{$name} {
+      font-size: #{$size}px;
+    }
+  }
+}
+
+@mixin font-family {
+
+  @font-face {
+    @include font('Display', '../../assets/fonts/gt-super/gt-super-700', 700, normal);
+  }
+
+  @font-face {
+    @include font-woff('Manrope', '../../assets/fonts/manrope/400', 400, normal);
+  }
+  
+  @font-face {
+    @include font-woff('Manrope', '../../assets/fonts/manrope/700', 700, normal);
+  }
+  
+  @font-face {
+    @include font-woff('Manrope', '../../assets/fonts/manrope/900', 900, normal);
+  }
+
+  @font-face {
+    @include font('Feather', '../../assets/fonts/feather/feather', 400, normal);
+  }
+}
+
+@mixin colors {
+  .color-white {
+    color: $white;
+  }
+
+  @each $name, $value in $colors {
+    .color-#{$name} {
+      color: $value;
+    }
+  }
+}
+
+@mixin bg {
+  .bg-white {
+    color: $white;
+  }
+
+  @each $name, $value in $colors {
+    .bg-#{$name} {
+      color: $value;
+    }
+  }
+}

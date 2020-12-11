@@ -1,0 +1,12 @@
+@import '../../../../styles/variables';
+
+.app-filter {
+  padding: 8px;
+
+  &.sticky {
+    background-color: $white;
+    box-shadow: $shadow-default;
+    border-radius: 0 0 5px 5px;
+    padding-bottom: 0;
+  }
+}

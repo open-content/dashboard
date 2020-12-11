@@ -1,0 +1,51 @@
+<div class="sidebar">
+  <div class="logo"></div>
+  <div class="wrapper">
+    <ul class="nav">
+      <li routerLinkActive="active"><a routerLink="/overview"><i class="icon-pie-chart"></i> Overview</a></li>
+      <li routerLinkActive="active">
+          <a routerLink="/stories"><i class="icon-book-open"></i> Stories</a> 
+          <button nz-button nzType="text" nz-tooltip nzTooltipTitle="Write a story" routerLink="/stories/new" nzShape="circle"><i class="icon-plus"></i></button>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="/categories"><i class="icon-grid"></i> Categories</a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="/users"><i class="icon-users"></i> Users</a>
+      </li>
+      <li routerLinkActive="active">
+        <a routerLink="/gallery"><i class="icon-image"></i> Gallery</a>
+      </li>
+      <li routerLinkActive="active"><a routerLink="/settings"><i class="icon-settings"></i> Settings</a></li>
+    </ul>
+  </div>
+  <div class="user">
+    <div class="inner">
+      <div class="user-image">
+        <span *ngIf="!user.avatar">{{user.firstName[0]}}</span>
+        <div class="img" *ngIf="user.avatar" [ngStyle]="{'background-image': 'url(' + user.avatar + ')'}"></div>
+      </div>
+      <h3>{{user.firstName}} {{user.lastName[0]}}.</h3>
+      <p class="px12 color-n50" style="text-transform: capitalize;">{{user.role}}</p>
+
+      <button class="trigger" nz-popover [nzPopoverContent]="contentTemplate" nzPopoverPlacement="topRight" nzPopoverTrigger="click" [nzPopoverVisible]="isVisible" (click)="toggle();" nz-button nzType="text" nzShape="circle"><i class="icon-chevron-up"></i></button>
+      <ng-template #contentTemplate>
+        <div class="popmenu">
+          <div class="user">
+            <div class="user-image">
+              <span *ngIf="!user.avatar">{{user.firstName[0]}}</span>
+        <div class="img" *ngIf="user.avatar" [ngStyle]="{'background-image': 'url(' + user.avatar + ')'}"></div>
+            </div>
+            <h3 class="px24"><strong>{{user.firstName}}</strong></h3>
+            <p class="px16 weight700 color-n75">{{user.lastName}}</p>
+          </div>
+
+          <ul>
+            <li (click)="settings();"><i class="icon-settings"></i> Settings</li>
+            <li class="color-e100" (click)="logout();"><i class="icon-log-out"></i> Logout</li>
+          </ul>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div class="register">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="fh">
+          <div class="box">
+            <div class="logo"></div>
+
+            <h1 class="weight900">Register. 
+              <span *ngIf="step === 'email'" class="dots"><i class="c"></i><i></i><i></i></span>
+              <span *ngIf="step === 'workspace'" class="dots"><i class="d"></i><i class="c"></i><i></i></span>
+              <span *ngIf="step === 'user'" class="dots"><i class="d"></i><i class="d"></i><i class="c"></i></span>
+            </h1>
+
+            <form class="form" [formGroup]="registerForm" (submit)="register();">
+              <div *ngIf="step === 'email'">
+                <p class="px16">Please enter your<br />email address to continue</p>
+                <div class="form-row">
+                  <div class="wrap">
+                    <input nz-input nzSize="large" formControlName="email" name="email" type="email" placeholder="you@domain.com" />
+                    <span *ngIf="registerForm.get('email').errors && registerForm.get('email').errors.exists" nz-tooltip nzTooltipTitle="Email exists" class="hint right color-e100"><i class="icon-info"></i></span>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <button nz-button nzType="primary" nzDanger [disabled]="!registerForm.get('email').valid" type="button" (click)="continue('workspace');" nzSize="large" nzShape="round">Continue</button>
+                </div>
+              </div>
+
+              <div *ngIf="step === 'workspace'">
+                <div class="form-row">
+                  <label>Email address</label>
+                  <p class="px16 weight700">{{registerForm.get('email').value}}</p>
+                </div>
+
+                <div class="form-row">
+                  <label>Choose your workspace name</label>
+                  <div class="wrap" style="margin-bottom: 8px;">
+                    <input nz-input maxlength="32" nzSize="large" type="text" name="workspace" formControlName="workspace" placeholder="Workspace name" />
+                  </div>
+
+                  <p *ngIf="registerForm.get('workspace').value" class="px16"><span class="weight700">{{registerForm.get('workspace').value}}</span>.ocms.dev</p>
+                  <p *ngIf="!registerForm.get('workspace').value" class="px16"><span class="weight700">&lt;workspace&gt;</span>.ocms.dev</p>
+                </div>
+                <div class="form-row">
+                  <button nz-button nzType="primary" nzDanger [disabled]="!registerForm.get('workspace').valid" type="button" (click)="continue('user');" nzSize="large" nzShape="round">Continue</button>
+                </div>
+              </div>
+
+              <div *ngIf="step === 'user'">
+                <div class="form-row">
+                  <label>Email address</label>
+                  <div class="wrap">
+                    <p class="px16 weight700">{{registerForm.get('email').value}}</p>
+                    <a class="hint right" (click)="continue('email');"><i class="icon-edit"></i></a>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <label>Workspace</label>
+                  <div class="wrap">
+                    <p class="px16"><span class="weight700">{{registerForm.get('workspace').value}}</span>.ocms.dev</p>
+                    <a class="hint right" (click)="continue('workspace');"><i class="icon-edit"></i></a>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <label>Tel us your name</label>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input nz-input nzSize="large" type="text" name="firstName" formControlName="firstName" placeholder="John" />
+                    </div>
+                    <div class="col-md-6">
+                      <input nz-input nzSize="large" type="text" name="lastName" formControlName="lastName" placeholder="Doe" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <label>Set a password</label>
+                  <div class="wrap" style="margin-bottom: 8px;">
+                    <input nz-input nzSize="large" type="password" name="password" formControlName="password" placeholder="Must be strong" />
+                  </div>
+                </div>
+                <div class="form-row">
+                  <button nz-button nzType="primary" nzDanger [disabled]="!registerForm.valid" type="submit" nzSize="large" nzShape="round" [nzLoading]="loading">Complete</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="link">
+              <p class="weight700">Already have an account?</p>
+              <p class="px18" style="margin-top: 8px;"><a class="weight900" routerLink="/auth/login">Take me to login <i class="icon-arrow-right"></i></a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

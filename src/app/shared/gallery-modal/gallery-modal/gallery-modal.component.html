@@ -1,0 +1,115 @@
+<div class="gallery-modal">
+  <div *ngIf="search.copying || search.loading || preview.loading || result.deleting" class="bar loading-bar"></div>
+  <span *ngIf="!search.shown" class="close" nz-tooltip nzTooltipTitle="Close" (click)="close();"><i class="icon-x"></i></span>
+  <input type="file" class="file-input" #fileInput [accept]="accept" [multiple]="multiple" (change)="selectFile($event);" />
+  <div class="header">
+    <div class="main">
+      <h3 *ngIf="!search.shown">Library</h3>
+      <div *ngIf="search.shown" class="search">
+        <span class="ico" (click)="hideSearch();"><i class="icon-arrow-left"></i></span>
+        <input type="text" #searchInput (keyup.enter)="searchMedia(searchInput.value);" placeholder="Type a keyword and hit enter..." />
+      </div>
+    </div>
+    <ul class="actions" *ngIf="!search.shown">
+      <li *ngIf="result.selected.length > 0">{{result.selected.length}}x selected</li>
+      <li *ngIf="result.selected.length > 0"><button (click)="emitSelected();" nz-button nzType="primary" nzSize="small" nzDanger nzShape="round"><i class="icon-check" style="margin-right: 4px;"></i> Done</button></li>
+      <li><button nz-button nzType="link" (click)="fileInput.click()" nz-tooltip nzTooltipTitle="Upload media" nzShape="circle"><i class="icon-upload"></i></button></li>
+      <li><button nz-button nzType="text" (click)="showSearch();" nz-tooltip nzTooltipTitle="Search media" nzShape="circle"><i class="icon-search"></i></button></li>
+    </ul>
+    <ul class="actions" *ngIf="search.shown">
+      <li *ngIf="search.selected.length > 0"><button nz-button nzType="primary" nzSize="small" nzDanger nzShape="round" (click)="addToLibrary();"><i class="icon-check" style="margin-right: 4px;"></i> Add {{search.selected.length}} to library</button></li>
+    </ul>
+  </div>
+  <div class="overlay" *ngIf="uploader.files.length > 0"></div>
+  <ul class="uploader" *ngIf="uploader.files.length > 0">
+    <li *ngFor="let file of uploader.files">
+      <div class="image" [ngStyle]="{'background-image': 'url(' + file.url + ')'}"></div>
+      <div class="loader"></div>
+    </li>
+  </ul>
+  <div class="body">
+    <ng-scrollbar
+      track="vertical"
+      viewClass="scroll-view"
+      class="compact-scroll"
+    >
+      <div class="inside">
+        <div class="empty" *ngIf="!search.shown && result.loading">
+          <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+          <h2 class="color-n75">Loading media</h2>
+          <p class="color-n50">Please wait while we fetch media files from your library</p>
+        </div>
+  
+        <div class="empty" *ngIf="!search.shown && !result.loading && result.rows && result.rows.length === 0">
+          <h2 class="color-n75">Library is empty</h2>
+          <p class="color-n50" style="margin-bottom: 18px;">Click below button to upload media in your library</p>
+          <button nz-button nzType="primary" (click)="fileInput.click()"  nzDanger nzShape="round"><i class="icon-upload" style="margin-right: 4px;"></i> Upload files</button>
+        </div>
+  
+        <div class="empty" *ngIf="search.shown && search.loading && search.term">
+          <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+          <h2 class="color-n75">Searching images</h2>
+          <p class="color-n50">Please wait while we fetch images for you</p>
+        </div>
+  
+        <div class="empty" *ngIf="search.shown && !search.term && search.rows && search.rows.length === 0">
+          <div class="ico"><i class="icon-image"></i></div>
+          <h2 class="color-n75">Search images</h2>
+          <p class="color-n50">Type your search keyword and hit enter to search</p>
+          <p class="px10 color-n50" style="margin-top: 14px;">Powered by Pixabay</p>
+        </div>
+  
+        <div class="empty" *ngIf="search.shown && !search.loading && search.term && search.rows && search.rows.length === 0">
+          <h2 class="color-n75">Nothing found</h2>
+          <p class="color-n50">Please try a different keyword</p>
+        </div>
+        <ul class="media" *ngIf="result.rows.length && !search.shown">
+          <li 
+            *ngFor="let file of result.rows"
+            [ngClass]="{selected: result.selected.indexOf(file.id) !== -1}"
+          >
+            <div (click)="select(file, 'result');" class="image" [ngStyle]="{'background-image': 'url(' + mediaUrl  + '/' + file.path + ')'}"></div>
+            <div class="actions">
+              <div class="buttons">
+                <span class="sel color-s100"><i class="icon-check-circle"></i> Selected</span>
+                <span class="no-sel" (click)="openPreview(file);" nz-tooltip nzTooltipTitle="Preview"><i class="icon-eye"></i></span>
+                <span class="no-sel" (nzOnConfirm)="delete(file);" nz-popconfirm [nzPopconfirmTitle]="confirmTitle" nzOkText="Yes" nzCancelText="No">
+                  <i class="icon-trash-2 color-error"></i>
+                  <ng-template #confirmTitle>
+                    <p class="weight700">Are you sure want to<br />delete this?</p>
+                    <p class="px12 color-neutral500">This action will be permanent.</p>
+                  </ng-template>
+                </span>
+              </div>
+              <div class="info">{{file.width}}x{{file.height}}</div>
+            </div>
+          </li>
+        </ul>
+        <ul class="media" *ngIf="search.rows.length && search.shown">
+          <li 
+            *ngFor="let file of search.rows"
+            [ngClass]="{selected: search.selected.indexOf(file.id) !== -1}"
+          >
+            <div (click)="select(file, 'search');" class="image" [ngStyle]="{'background-image': 'url(' + file.thumb + ')'}"></div>
+            <div class="actions">
+              <a [href]="file.link" (click)="return;" nz-tooltip nzTooltipTitle="Visit provider" target="_blank" class="link no-sel"><i class="icon-external-link"></i></a>
+              <div class="buttons">
+                <span class="sel color-s100"><i class="icon-check-circle"></i> Selected</span>
+                <span class="no-sel" (click)="openPreview(file);" nz-tooltip nzTooltipTitle="Preview"><i class="icon-eye"></i></span>
+                <span class="no-sel" (click)="addToLibrary(file)" nz-tooltip nzTooltipTitle="Add to library"><i class="icon-plus color-s100"></i></span>
+              </div>
+              <div class="info">{{file.width}}x{{file.height}}</div>
+            </div>
+          </li>
+        </ul>
+        <div class="loader" *ngIf="(result.rows.length > 0 && result.loading) || (search.rows.length > 0 && search.loading)">
+          <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+        </div> 
+      </div>
+    </ng-scrollbar>
+  </div>
+  <div class="preview" *ngIf="preview.url">
+    <img [src]="preview.url" />
+    <span class="close" nz-tooltip nzTooltipTitle="Close preview" (click)="closePreview();"><i class="icon-x"></i></span>
+  </div>
+</div>

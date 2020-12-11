@@ -1,0 +1,128 @@
+@import '../../../styles/variables';
+
+.login {
+  width: 100%;
+  position: relative;
+
+  .fh {
+    min-height: 100vh;
+    padding: 32px 0;
+
+    display: flex;
+    align-items: center;
+
+    .box {
+      width: 462px;
+      margin-left: 120px;
+
+      background-color: $white;
+      padding: 62px 52px;
+      box-shadow: $shadow-default;
+      border-radius: 3px;
+
+      .logo {
+        background-image: url(../../../assets/images/logo.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 81px;
+        height: 24px;
+        margin-bottom: 72px;
+      }
+
+      .form {
+        margin-top: 24px;
+      }
+
+      .link {
+        margin-top: 72px;
+      }
+
+      .accounts {
+        margin-top: 18px;
+
+        li {
+          background-color: $white;
+          border-radius: 3px;
+          width: 100%;
+          position: relative;
+          padding: 12px 12px 12px 54px;
+          box-shadow: 0 1px 1.5px $n5;
+          cursor: pointer;
+          margin-bottom: 5px;
+          transition: all 0.3s linear;
+
+          .remove {
+            position: absolute;
+            top: 50%;
+            right: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-50%);
+            z-index: 5;
+            display: inline-block;
+            display: inline-block;
+            padding: 4px 8px;
+
+            &:hover {
+              color: $e100;
+            }
+          }
+          
+
+          &:hover {
+            background-color: $p5;
+
+            .remove {
+              opacity: 1;
+              visibility: visible;
+            }
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          &.expired {
+            opacity: 0.75;
+          }
+
+          .avatar {
+            position: absolute;
+            left: 12px;
+            top: 16px;
+          }
+
+          .hint {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+          }
+        }
+      }
+
+      .workspace {
+        background-color: $white;
+        border-radius: 3px;
+        width: 100%;
+        position: relative;
+        padding: 12px 12px 12px 54px;
+        box-shadow: 0 1px 1.5px $n5;
+        margin: 18px 0;
+
+        .avatar {
+          position: absolute;
+          left: 12px;
+          top: 16px;
+        }
+
+        .hint {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+  }
+}

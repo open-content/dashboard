@@ -1,0 +1,88 @@
+$p100: #6303F9;
+$p75: #8A42FA;
+$p50: #B080FB;
+$p30: #CFB2FC;
+$p5: #F7F2FF;
+
+$n100: #11002B;
+$n75: #4C4060;
+$n50: #877F94;
+$n30: #B7B2BF;
+$n5: #F2F2F4;
+
+$s100: #19B780;
+$s75: #52C9A0;
+$s50: #8BDBBF;
+$s30: #B9E9D9;
+$s5: #F3FCF9;
+
+$e100: #D81698;
+$e75: #E250B2;
+$e50: #EB8ACB;
+$e30: #F3B8E0;
+$e5: #FDF3FA;
+
+$w100: #F0C925;
+$w75: #F4D65B;
+$w50: #F7E491;
+$w30: #FBEFBD;
+$w5: #FFFCF4;
+
+$colors: (
+  n100: $n100,
+  n75: $n75,
+  n50: $n50,
+  n30: $n30,
+  n5: $n5,
+  p100: $p100,
+  p75: $p75,
+  p50: $p50,
+  p30: $p30,
+  p5: $p5,
+  s100: $s100,
+  s75: $s75,
+  s50: $s50,
+  s30: $s30,
+  s5: $s5,
+  e100: $e100,
+  e75: $e75,
+  e50: $e50,
+  e30: $e30,
+  e5: $e5,
+  w100: $w100,
+  w75: $w75,
+  w50: $w50,
+  w30: $w30,
+  w5: $w5
+);
+
+$white: #ffffff;
+
+$weights: (400, 700, 900);
+
+$font-sizes: (
+  "32": 32,
+  "24": 24,
+  "18": 18,
+  "16": 16,
+  "14": 14,
+  "12": 12,
+  "10": 10
+);
+
+$radius: 5px;
+$default-weight: 400;
+
+$transition: all 0.3s linear;
+
+$shadow-large: 0 0 32px rgba($n100, 0.16);
+$shadow-default: 0 0 18px $n5;
+
+
+@function strip-unit($number) {
+  @if type-of($number) == "number" and not unitless($number) {
+    @return $number/($number * 0 + 1);
+  }
+
+  @return $number;
+}

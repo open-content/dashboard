@@ -1,0 +1,79 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <page-head title="Categories" description="All categories" [actions]="headActions"></page-head>
+      <ng-template #headActions>
+        <button nz-button nzType="link" class="color-p100" (click)="openDrawer();"><i class="icon-plus" style="margin-right: 8px;"></i> Add new</button>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-filter>
+        <ul class="filters">
+          <li [ngClass]="{active: !params.by}" (click)="changeType();">All</li>
+          <li [ngClass]="{active: params.by === 'me'}" (click)="changeType('me');">Mine</li>
+          <li [ngClass]="{active: params.by === 'others'}" (click)="changeType('others');">Others</li>
+          <li class="sep"></li>
+          <li class="search">
+            <i class="icon-search"></i>
+            <input type="text" (keydown.enter)="onSearch();"
+              [(ngModel)]="params.q" placeholder="Search name" />
+            <button *ngIf="params.q" (click)="onSearch(true);" nz-button
+              nzType="text" nzSize="small" nzShape="circle">
+              <i class="icon-x"></i>
+            </button>
+          </li>
+        </ul>
+      </app-filter>
+      <table class="table">
+        <tbody>
+          <tr *ngFor="let cat of categories; let i = index">
+            <td>{{i + 1 | number:'2.0'}}</td>
+            <td class="weight700 px16">{{cat.name}}</td>
+            <td>/{{cat.slug}}</td>
+            <td>{{cat.description}}</td>
+            <td>{{cat.createdBy.firstName}} {{cat.createdBy.lastName}}</td>
+            <td>{{cat.createdAt | date:'medium'}}</td>
+            <td class="actions">
+              <button nz-button nzShape="circle" (click)="edit(cat);" nzType="text" nzSize="small" nz-tooltip nzTooltipTitle="Edit" class="color-p100"><i class="icon-edit"></i></button>
+              <button nz-button nzShape="circle" nzType="text" nzSize="small" nz-tooltip nzTooltipTitle="Delete" nzDanger><i class="icon-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #addCategory>
+  <div class="drawer add-category">
+    <h2 *ngIf="id.value">Edit category</h2>
+    <h2 *ngIf="!id.value">Add category</h2>
+    <p *ngIf="!id.value">Fill the details to add new category</p>
+    <p *ngIf="id.value">Change category details</p>
+
+    <div class="form">
+      <form [formGroup]="categoryForm" (submit)="saveCategory();">
+        <input type="hidden" #id formControlName="id" name="id" />
+        <div class="form-row">
+          <label>Name</label>
+          <input nz-input formControlName="name" name="name" type="text" placeholder="Enter category name" />
+        </div>
+        <div class="form-row">
+          <label>Slug</label>
+          <input nz-input formControlName="slug" name="slug" type="text" placeholder="Enter category name" />
+        </div>
+        <div class="form-row">
+          <label>Description (optional)</label>
+          <textarea nz-input formControlName="description" name="description" type="text" placeholder="Enter category name"></textarea>
+        </div>
+        <div class="form-row buttons">
+          <button nz-button nzType="primary" type="submit">Save category</button>
+          <button (click)="closeDrawer();" nz-button nzType="text" type="reset">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

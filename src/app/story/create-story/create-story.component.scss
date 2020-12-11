@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Piazzolla:wght@700&display=swap');
+@import '../../../styles/variables';
+
+.post-header {
+  padding: 24px;
+
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+
+    .action {
+      > * {
+        margin-left: 12px;
+        
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+.create-post {
+  padding-top: 48px;
+
+  .title {
+    outline: 0px solid transparent;
+    position: relative;
+    margin-bottom: 18px;
+    font-weight: 700;
+    font-size: 38px;
+
+    &:empty::before {
+      content: attr(placeholder);
+      color: $n30;
+    }
+  }
+
+  .editorjs {
+    font-size: 18px;
+    color: $n50;
+  }
+}

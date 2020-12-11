@@ -1,0 +1,8 @@
+<section [ngClass]="{layout: loggedIn && !noSidebar}">
+  <div class="side-bar" *ngIf="loggedIn && !noSidebar">
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="page">
+    <router-outlet></router-outlet>
+  </div>
+</section>

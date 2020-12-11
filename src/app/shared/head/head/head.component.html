@@ -1,0 +1,9 @@
+<div class="head">
+  <div class="title">
+    <h1>{{title}}</h1>
+    <p *ngIf="description" class="px18">{{description}}</p>
+  </div>
+  <div class="actions">
+    <ng-container *ngTemplateOutlet="actions"></ng-container>
+  </div>
+</div>

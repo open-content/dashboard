@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <page-head title="Users" description="All users" [actions]="headActions"></page-head>
+      <ng-template #headActions>
+        <button nz-button nzType="link" (click)="openDrawer();" class="color-p100"><i class="icon-plus" style="margin-right: 8px;"></i> Add new</button>
+      </ng-template>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-filter>
+        <ul class="filters">
+          <li [ngClass]="{active: !params.type}" (click)="changeType();">All</li>
+          <li [ngClass]="{active: params.type === 'active'}" (click)="changeType('active');">Active</li>
+          <li [ngClass]="{active: params.type === 'inactive'}" (click)="changeType('inactive');">Inactive</li>
+          <li [ngClass]="{active: params.type === 'admin'}" (click)="changeType('admin');">Admin</li>
+          <li [ngClass]="{active: params.type === 'user'}" (click)="changeType('user');">User</li>
+          <li class="sep"></li>
+          <li class="search">
+            <i class="icon-search"></i>
+            <input type="text" (keydown.enter)="onSearch();"
+              [(ngModel)]="params.q" placeholder="Search name/email" />
+            <button *ngIf="params.q" (click)="onSearch(true);" nz-button
+              nzType="text" nzSize="small" nzShape="circle">
+              <i class="icon-x"></i>
+            </button>
+          </li>
+        </ul>
+      </app-filter>
+      <table class="table">
+        <tbody>
+          <tr *ngFor="let user of users; let i = index">
+            <td style="width: 48px;"><div class="avatar">
+              <img *ngIf="user.avatar" [src]="user.avatar" />
+              <span *ngIf="!user.avatar">{{user.firstName[0]}}</span>
+            </div></td>
+            <td class="weight700 px16">{{user.firstName}} {{user.lastName}}</td>
+            <td>{{user.email}}</td>
+            <td [ngClass]="{'color-n30': !user.bio}">{{user.bio || 'bio not added'}}</td>
+            <td [ngClass]="{'color-n30': !user.location}">{{user.location || 'location not added'}}</td>
+            <td>{{user.role}}</td>
+            <td style="width: 58px;">
+              <span *ngIf="user.status" class="color-s100 icon-check-circle"></span>
+              <span *ngIf="!user.status" class="color-e100 icon-slash"></span>
+            </td>
+            <td>{{user.createdAt | date:'medium'}}</td>
+            <td class="actions">
+              <button nz-button nzShape="circle" nzType="text" nzSize="small" nz-tooltip nzTooltipTitle="Reset pass" class="color-p100"><i class="icon-key"></i></button>
+              <button nz-button nzShape="circle" nzType="text" nzSize="small" nz-tooltip nzTooltipTitle="{{user.status ? 'Deactivate' : 'Activate'}}" [ngClass]="{'color-s100': !user.status, 'color-e100': user.status}"><i [ngClass]="{'icon-check-circle': !user.status, 'icon-slash': user.status}"></i></button>
+              <button nz-button nzShape="circle" (click)="edit(user);" nzType="text" nzSize="small" nz-tooltip nzTooltipTitle="Edit" class="color-p100"><i class="icon-edit"></i></button>
+              <button nz-button nzShape="circle" nzType="text" nzSize="small" nz-tooltip nzTooltipTitle="Delete" nzDanger><i class="icon-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<ng-template #addUser>
+  <div class="drawer add-category">
+    <h2 *ngIf="!id.value">Add user</h2>
+    <h2 *ngIf="id.value">Edit user</h2>
+    <p *ngIf="!id.value">Fill the details to add new user</p>
+    <p *ngIf="id.value">Change user details</p>
+
+    <div class="form">
+      <form [formGroup]="userForm" (submit)="saveUser();">
+        <input type="hidden" #id formControlName="id" name="id" />
+        <div class="form-row">
+          <label>First name</label>
+          <input nz-input formControlName="firstName" name="firstName" type="text" placeholder="John" />
+        </div>
+        <div class="form-row">
+          <label>Last name</label>
+          <input nz-input formControlName="lastName" name="lastName" type="text" placeholder="Doe" />
+        </div>
+        <div class="form-row">
+          <label>Email</label>
+          <input nz-input formControlName="email" name="email" type="email" placeholder="you@domian.ext" />
+        </div>
+        <div class="form-row" *ngIf="!id.value">
+          <label>Password</label>
+          <input nz-input formControlName="password" name="password" type="password" placeholder="••••••••" />
+        </div>
+        <div class="form-row">
+          <label>Role</label>
+          <nz-radio-group formControlName="role" style="font-weight: 700;">
+            <label nz-radio nzValue="user">User</label>
+            <label nz-radio nzValue="admin">Admin</label>
+          </nz-radio-group>
+        </div>
+        <div class="form-row">
+          <label>Location (optional)</label>
+          <input nz-input formControlName="location" name="location" type="text" placeholder="Enter location" />
+        </div>
+        <div class="form-row">
+          <label>Bio (optional)</label>
+          <textarea nz-input formControlName="bio" name="bio" type="text" placeholder="Enter user's bio"></textarea>
+        </div>
+        <div class="form-row buttons">
+          <button nz-button nzType="primary" type="submit">Save user</button>
+          <button (click)="closeDrawer();" nz-button nzType="text" type="reset">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+

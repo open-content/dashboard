@@ -1,0 +1,25 @@
+<div class="container post-header">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="wrapper">
+        <h3><a routerLink="/stories">Stories</a> <span style="margin-left: 8px;" class="color-n50">/ new</span></h3>
+        <div class="action">
+          <label *ngIf="saving">Saving...</label>
+          <button nz-button nzType="primary">Publish</button>
+          <button nz-button nzType="text" nzShape="circle"><i style="font-size: 18px;" class="icon-more-horizontal"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container create-post">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <h1 contenteditable="true" class="title" [textContent]="story.title" (input)="story.title=$event.target.textContent" (keydown.enter)="onEnter($event);" placeholder="Title"></h1>
+      <div class="editorjs" id="editor"></div>
+    </div>
+  </div>
+</div>
+<ng-template #gallery>
+  <app-gallery-modal (onClose)="closeGallery();" (onSelectMedia)="onSelectMedia($event)"></app-gallery-modal>
+</ng-template>

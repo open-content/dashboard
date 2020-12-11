@@ -1,0 +1,73 @@
+@import '../../../styles/variables';
+
+.register {
+  width: 100%;
+  position: relative;
+
+  .fh {
+    min-height: 100vh;
+    padding: 32px 0;
+
+    display: flex;
+    align-items: center;
+
+    .box {
+      width: 462px;
+      margin-left: 120px;
+
+      background-color: $white;
+      padding: 62px 52px;
+      box-shadow: $shadow-default;
+      border-radius: 3px;
+
+      h1 {
+        position: relative;
+        width: 100%;
+
+        .dots {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 0;
+
+          i {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 1px solid $n30;
+            margin-left: 12px;
+            opacity: 0.75;
+
+            &.c {
+              background-color: $p100;
+              border-color: $p100;
+              opacity: 1;
+            }
+
+            &.d {
+              background-color: $n30;
+            }
+          }
+        }
+      }
+
+      .logo {
+        background-image: url(../../../assets/images/logo.svg);
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 81px;
+        height: 24px;
+        margin-bottom: 72px;
+      }
+
+      .form {
+        margin-top: 24px;
+      }
+
+      .link {
+        margin-top: 72px;
+      }
+    }
+  }
+}

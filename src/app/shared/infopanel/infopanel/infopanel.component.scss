@@ -1,0 +1,19 @@
+@import '../../../../styles/variables';
+
+.info-panel {
+  height: calc(100vh - 56px);
+
+  .title {
+    padding: 16px;
+  }
+
+  .title-template {
+    max-height: 60px;
+  }
+
+  .inside {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}

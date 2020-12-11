@@ -1,0 +1,8 @@
+<div class="empty">
+  <div class="loading" *ngIf="loading">
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+  </div>
+  <h3 class="color-n50">{{title}}</h3>
+  <p class="colod-n30">{{description}}</p>
+  <div class="actions"><ng-content></ng-content></div>
+</div>

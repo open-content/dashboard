@@ -1,0 +1,5 @@
+<app-sticky top="0px" (onSticky)="onSticky($event);">
+  <div class="app-filter" [ngClass]="{sticky: sticky}">
+    <ng-content></ng-content>
+  </div>
+</app-sticky>

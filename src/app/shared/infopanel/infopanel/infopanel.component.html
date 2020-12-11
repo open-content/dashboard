@@ -1,0 +1,24 @@
+<div class="info-panel" [ngStyle]="{backgroundColor: panelBackground}" [ngClass]="{'no-shadow': noShadow}">
+  <div *ngIf="panelTitle">
+    <div *ngIf="isTemplate" class="title-template">
+      <ng-container *ngTemplateOutlet="panelTitle"></ng-container>
+    </div>
+    <div *ngIf="!isTemplate" class="title px16 weight700">{{panelTitle}}</div>
+  </div>
+  <div class="scroll-wrapper" [ngStyle]="{height: wrapperHeight}">
+    <ng-scrollbar
+      track="vertical"
+      viewClass="scroll-view"
+      [ngClass]="{'compact-scroll': compactScroll}"
+    >
+      <div class="inside" [ngStyle]="{height: wrapperHeight}">
+        <div class="panel-content">
+          <ng-content></ng-content>
+        </div>
+        <div class="actions" *ngIf="actions">
+          <ng-container *ngTemplateOutlet="actions"></ng-container>
+        </div>
+      </div>
+    </ng-scrollbar>
+  </div>
+</div>
