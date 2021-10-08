@@ -1,0 +1,32 @@
+@import '../../../styles/variables';
+
+.overview {
+  .box {
+    display: flex;
+    margin: 15px 0;
+
+    .ico {
+      display: inline-block;
+      height: 108px;
+      position: relative;
+      width: 84px;
+      border-radius: 8px 0 0 8px;
+
+      i {
+        position: absolute;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 32px;
+      }
+    }
+
+    .stat {
+      padding: 19px 32px;
+
+      h2 {
+        font-size: 32px;
+      }
+    }
+  }
+}

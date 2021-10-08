@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  base: 'http://localhost:4000',
-  mediaUrl: 'https://static.ocms.dev'
+  base: "http://localhost:4000",
+  mediaUrl: "https://static.ocms.dev"
 };
 
 /*

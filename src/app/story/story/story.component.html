@@ -33,8 +33,8 @@
       </app-filter>
       <ul class="post-list" *ngIf="stories.length > 0">
         <li *ngFor="let story of stories" [ngClass]="{draft: !story.status}">
-          <h2>{{story.title}}</h2>
-          <p>{{story.description}}</p>
+          <h2>{{story.title || '[No title]'}}</h2>
+          <p>{{story.description || 'No description added'}}</p>
           <div class="info">
             <div class="user">
               <div class="user-image"
@@ -44,7 +44,8 @@
                 {{story.author.lastName}}</p>
             </div>
             <span class="sep">in</span>
-            <span class="weight700 color-n75">{{story.category.name}}</span>
+            <span *ngIf="story.category" class="weight700 color-n75">{{story.category.name}}</span>
+            <span *ngIf="!story.category" class="weight700 color-n75">Uncategorised</span>
             <span class="sep">&bull;</span>
             <span *ngIf="story.status">Published</span>
             <span *ngIf="!story.status">Draft</span>
@@ -58,9 +59,9 @@
                   class="icon-chevron-down"></i></button>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
-                  <li nz-menu-item routerLink="/stories/{{story._id}}"><i
+                  <li nz-menu-item routerLink="/stories/{{story.id}}"><i
                       class="ico-left icon-edit"></i> Edit post</li>
-                  <li nz-menu-item (click)="confirmDelete(story._id);"
+                  <li nz-menu-item (click)="confirmDelete(story.id);"
                     class="color-e100"><i class="ico-left icon-trash-2"></i>
                     Delete story</li>
                 </ul>
@@ -72,7 +73,7 @@
       <ul class="post-list" *ngIf="stories.length === 0">
         <li>
           <app-empty title="Nothing to see here" description="There are no stories, click the button below to write one">
-            <button nz-button routerLink="/stories/new">Write a story</button>
+            <button nz-button routerLink="/stories/new" nzShape="round">Write a story</button>
           </app-empty>
         </li>
       </ul>

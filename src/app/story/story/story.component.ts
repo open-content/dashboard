@@ -75,7 +75,7 @@ export class StoryComponent implements OnInit {
       () => {
         this.toast.remove(messageId);
         this.toast.success("Story deleted successfully.");
-        this.stories = this.stories.filter((story: any) => story._id !== id);
+        this.stories = this.stories.filter((story: any) => story.id !== id);
       },
       () => {
         this.toast.remove(messageId);

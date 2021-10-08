@@ -1,12 +1,159 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <page-head title="Settings" description="Setup your blog from here"></page-head>
+<div class="settings">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <page-head title="Settings" description="Manage your Open CMS account."></page-head>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <p>Settings</p>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box">
+          <div class="head">
+            <h3>Workpsace</h3>
+            <p>Manage logo, name and URL of your workspace.</p>
+          </div>
+
+          <ul class="fields">
+            <li routerLink="/settings/workspace/logo">
+              <label>Logo</label>
+              <div class="info">
+                <p>A picture helps to identify your workspace</p>
+              </div>
+
+              <div class="avatar">
+                <img [src]="user.workspace.avatar || '/assets/images/icon.svg'" />
+              </div>
+            </li>
+            <li routerLink="/settings/workspace/name">
+              <label>Name</label>
+              <div class="info">
+                <h4><strong>{{user.workspace.name}}</strong></h4>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+            <li routerLink="/settings/workspace/url">
+              <label>URL</label>
+              <div class="info">
+                <h4><strong>{{user.workspace.slug}}</strong>.ocms.dev</h4>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+          </ul>
+        </div>
+        <div class="box">
+          <div class="head">
+            <h3>Profile</h3>
+            <p>Manage your name and other details.</p>
+          </div>
+
+          <ul class="fields">
+            <li routerLink="/settings/profile/avatar">
+              <label>Avatar</label>
+              <div class="info">
+                <p>A picture helps to identify yourself</p>
+              </div>
+
+              <div class="avatar">
+                <img [src]="user.avatar" />
+              </div>
+            </li>
+            <li routerLink="/settings/profile/name">
+              <label>Full name</label>
+              <div class="info">
+                <h4><strong>{{user.firstName}} {{user.lastName}}</strong></h4>
+              </div>
+            </li>
+            <li routerLink="/settings/profile/alias">
+              <label>Alias</label>
+              <div class="info">
+                <h4><strong>{{user.alias || '[not added]'}}</strong></h4>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+            <li routerLink="/settings/profile/location">
+              <label>Location</label>
+              <div class="info">
+                <h4><strong>{{user.location || '[not added]'}}</strong></h4>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+            <li routerLink="/settings/profile/mobile">
+              <label>Mobile</label>
+              <div class="info">
+                <h4 *ngIf="user.mobile">+91 <strong>{{user.mobile}}</strong></h4>
+                <h4 *ngIf="!user.mobile"><strong>[not added]</strong></h4>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="box">
+          <div class="head">
+            <h3>APIs</h3>
+            <p>Manage API access and domain settings.</p>
+          </div>
+
+          <ul class="fields">
+            <li routerLink="/settings/api/access">
+              <label>ACCESS</label>
+              <div class="info">
+                <span class="tag"><span class="method">GET</span> /stories</span>
+                <span class="tag"><span class="method">GET</span> /catgeories</span>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+            <li routerLink="/settings/api/domains">
+              <label>Domians</label>
+              <div class="info">
+                <span class="tag">gdgdelhi.com</span>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+            <li routerLink="/settings/api/keys">
+              <label>API Keys</label>
+              <div class="info">
+                <span class="tag">anjpv4070fprqshatyuxd-lqr</span>
+              </div>
+
+              <span class="ico"><i class="icon-chevron-right"></i></span>
+            </li>
+          </ul>
+        </div>
+        <div class="box">
+         <div class="head">
+          <h3>Account</h3>
+          <p>Manage your account details.</p>
+         </div>
+
+         <ul class="fields">
+          <li routerLink="/settings/account/email">
+            <label>Email</label>
+            <div class="info">
+              <h4><strong>{{user.email}}</strong></h4>
+            </div>
+
+            <span class="ico"><i class="icon-chevron-right"></i></span>
+          </li>
+          <li routerLink="/settings/account/password">
+            <label>Password</label>
+            <div class="info">
+              <h4><strong>●●●●●●●●●●</strong></h4>
+            </div>
+
+            <span class="ico"><i class="icon-chevron-right"></i></span>
+          </li>
+         </ul>
+        </div>
+      </div>
     </div>
   </div>
 </div>

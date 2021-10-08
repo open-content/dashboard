@@ -76,12 +76,12 @@
 
 @mixin bg {
   .bg-white {
-    color: $white;
+    background-color: $white;
   }
 
   @each $name, $value in $colors {
     .bg-#{$name} {
-      color: $value;
+      background-color: $value;
     }
   }
 }

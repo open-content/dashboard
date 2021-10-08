@@ -1,0 +1,57 @@
+<app-edit-setting
+  title="Workspace - {{type | titlecase}}"
+  description="Change your workspace {{type | titlecase}}"
+>
+  <div class="workspace">
+    <div class="row" *ngIf="type === 'logo'">
+      <div class="col-lg-3 col-md-4">
+        <div class="box">
+          <p class="px12 uppercase weight700 title">Change Logo</p>
+      
+          <div class="existing">
+            <img src="/assets/images/icon.svg" />
+
+            <button nz-button nzShape="round"><i class="icon-upload" style="margin-right: 8px;"></i> Select image</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="type === 'name'">
+      <div class="col-lg-3 col-md-4">
+        <div class="box">
+          <p class="px12 uppercase weight700 title">Workspace name</p>
+
+          <div class="form">
+            <div class="form-row">
+              <input nz-input nzSize="large" type="text" placeholder="Enter workspace name" />
+            </div>
+            <div class="form-row">
+              <button nz-button nzType="primary" nzShape="round">Update</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="type === 'url'">
+      <div class="col-lg-3 col-md-4">
+        <div class="box">
+          <p class="px12 uppercase weight700 title">Workspace URL</p>
+
+          <div class="form">
+            <div class="form-row">
+              <input nz-input nzSize="large" #url type="text" placeholder="Enter workspace url" />
+              
+              <div class="help">
+                <p *ngIf="url.value" class="px16"><span class="weight700">{{url.value}}</span>.ocms.dev</p>
+              <p *ngIf="!url.value" class="px16"><span class="weight700">&lt;workspace&gt;</span>.ocms.dev</p>
+              </div>
+            </div>
+            <div class="form-row">
+              <button nz-button nzType="primary" nzShape="round">Update</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-edit-setting>

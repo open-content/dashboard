@@ -1,12 +1,15 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Routes, RouterModule } from "@angular/router";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzDropDownModule } from "ng-zorro-antd/dropdown";
 import { NzModalModule } from "ng-zorro-antd/modal";
 import { NzMessageModule } from "ng-zorro-antd/message";
+import { NzDrawerModule } from "ng-zorro-antd/drawer";
+import { NzInputModule } from "ng-zorro-antd/input";
+import { NzSelectModule } from "ng-zorro-antd/select";
 
 import { HeadModule } from "../shared/head/head.module";
 import { StoryComponent } from "./story/story.component";
@@ -48,7 +51,11 @@ const routes: Routes = [
     NzMessageModule,
     EmptyModule,
     FilterModule,
-    GalleryModalModule
-  ],
+    GalleryModalModule,
+    ReactiveFormsModule,
+    NzDrawerModule,
+    NzInputModule,
+    NzSelectModule
+  ]
 })
 export class StoryModule {}

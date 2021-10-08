@@ -71,6 +71,11 @@ body.auth-bg{
 @include weight();
 @include font-sizes();
 @include colors();
+@include bg();
+
+.pointer {
+  cursor: pointer;
+}
 
 .form {
   width: 100%;
@@ -140,6 +145,11 @@ body.auth-bg{
       }
     }
   }
+}
+
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .table {
@@ -456,12 +466,8 @@ textarea {
   }
 }
 
-.ant-modal-wrap {
-  background: rgba($white, 0.5) !important;
-
-  .ant-modal-body  {
-    padding: 0 !important;
-  }
+.ant-modal-mask, .ant-image-preview-mask {
+  background: rgba($white, 0.5);
 }
 
 .lds-ellipsis {
@@ -530,4 +536,34 @@ textarea {
 .ant-btn-round.ant-btn-sm {
   padding: 4px 12px;
   height: 32px;
+}
+
+.tag {
+  background-color: $p5;
+  border-radius: 24px;
+  display: inline-block;
+  vertical-align: middle;
+  padding: 4px 12px;
+  color: $n100;
+  font-size: 12px;
+  font-weight: 400;
+
+  &.tag-lg {
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 32px;
+  }
+}
+
+.box {
+  border-radius: 8px;
+  border: 1px solid $n5;
+
+  &.shadow {
+    box-shadow: 0 0 24px $n5;
+  }
+}
+
+.ant-input-group-addon {
+  background-color: unset;
 }

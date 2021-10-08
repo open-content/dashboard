@@ -6,7 +6,7 @@ import { environment } from "src/environments/environment";
 import { query } from "../app.utility";
 
 @Injectable({
-  providedIn: "root",
+  providedIn: "root"
 })
 export class StoryService {
   private base: string = `${environment.base}/stories`;
@@ -30,7 +30,15 @@ export class StoryService {
     return this.http.delete(`${this.base}/${id}`);
   }
 
-  save(story: any) {
-    return this.http.post(`${this.base}/save`, story);
+  update(story: any): Observable<any> {
+    return this.http.put(`${this.base}/${story.id}`, story);
+  }
+
+  save(story: any): Observable<any> {
+    if (story.id) {
+      return this.update(story);
+    }
+
+    return this.create(story);
   }
 }

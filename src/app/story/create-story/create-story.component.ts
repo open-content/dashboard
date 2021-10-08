@@ -11,11 +11,18 @@ import Underline from '@editorjs/underline';
 // import Wraning from '@editorjs/warning';
 // import ImageTool from "@editorjs/image";
 import SimpleImage from "@editorjs/simple-image";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
+import { NzDrawerRef, NzDrawerService } from 'ng-zorro-antd/drawer';
 
 import { environment } from 'src/environments/environment';
 import { StoryService } from '../story.service';
+
+import { name, slug } from '../../app.regex';
+import { toSlug } from '../../app.utility';
+import { CategoryService } from "src/app/category/category.service";
 
 @Component({
   selector: "app-create-story",
@@ -25,27 +32,69 @@ import { StoryService } from '../story.service';
 export class CreateStoryComponent implements OnInit, AfterViewInit {
   private editor: EditorJS;
   private mediaUrl: string = environment.mediaUrl;
+  private drawerRef: NzDrawerRef;
+
+  storyForm: FormGroup = new FormGroup({
+    id: new FormControl(null),
+    title: new FormControl("", [Validators.required]),
+    slug: new FormControl("", [Validators.required, Validators.pattern(slug)]),
+    description: new FormControl(""),
+    category: new FormControl(""),
+    banner: new FormControl(""),
+  });
 
   story: any = {
-    title: "",
+    title: '',
     content: [],
-  };
+    tags: [],
+  }
 
   saved: boolean = false;
   saving: boolean = false;
+  blockIndex: number = 0;
+
+  categories: Array<any> = [];
 
   @ViewChild('gallery', { static: true }) gallery: TemplateRef<any>;
+  @ViewChild('publishStory') publishStory: TemplateRef<any>;
 
   private _modal: NzModalRef;
 
   constructor(
     private modal: NzModalService,
-    private storyService: StoryService
+    private storyService: StoryService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private drawer: NzDrawerService,
+    private categoryService: CategoryService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    const id: string = this.route.snapshot.params.id;
+
+    if(!id || id === 'new') {
+      return;
+    }
+
+    this.storyService.one(id).subscribe((res: any) => {
+
+      this.story = {
+        ...res
+      };
+
+      this.editor.isReady.then(() => {
+        this.editor.blocks.render({
+          blocks: this.story.content
+        })
+      });
+    });
+  }
 
   ngAfterViewInit() {
+
+    // this.openDrawer();
+
     this.editor = new EditorJS({
       holder: "editor",
       placeholder: "Tell your story...",
@@ -90,6 +139,7 @@ export class CreateStoryComponent implements OnInit, AfterViewInit {
       onChange: () => {
         this.saved = false;
         this.autosave();
+        this.blockIndex = this.editor.blocks.getCurrentBlockIndex();
       }
     });
   }
@@ -100,7 +150,8 @@ export class CreateStoryComponent implements OnInit, AfterViewInit {
       nzFooter: null,
       nzMask: false,
       nzContent: this.gallery,
-      nzClosable: false
+      nzClosable: false,
+      nzBodyStyle: {padding: '0'}
     });
   }
 
@@ -111,7 +162,7 @@ export class CreateStoryComponent implements OnInit, AfterViewInit {
         withBorder: false,
         withBackground: false,
         stretched: false
-      });
+      }, {}, this.blockIndex);
     })
   }
 
@@ -123,12 +174,17 @@ export class CreateStoryComponent implements OnInit, AfterViewInit {
     this.saving = true;
     this.editor.save().then((data: any) => {
       this.story.content = data.blocks;
+      
       this.storyService.save(this.story).subscribe((result: any) => {
-        this.saving = false;
-      })
 
-      console.log(this.story);
-      this.saved = true;
+        if(!this.story.id) {
+          this.router.navigateByUrl(`/stories/${result.id}`, {replaceUrl: true, preserveFragment: true});
+          this.story.id = result.id;
+        }
+        
+        this.saving = false;
+        this.saved = true;
+      });
     });
   }
 
@@ -145,5 +201,74 @@ export class CreateStoryComponent implements OnInit, AfterViewInit {
 
   selectMedia(media: Array<any>) {
     console.log(media);
+  }
+
+  openDrawer() {
+    this.drawerRef = this.drawer.create({
+      nzContent: this.publishStory,
+      nzClosable: false,
+      nzMaskClosable: false
+    });
+
+    this._fetchCategories();
+
+    this.editor.save().then((data: any) => {
+      this.story.content = data.blocks;
+    });
+
+    this.storyForm.get('title').setValue(this.story.title);
+    this.storyForm.get('description').setValue(this._getDescription());
+
+    if(this.story.category) {
+      this.storyForm.get('category').setValue(this.story.category.id);
+    }
+
+    this.storyForm.get('banner').setValue(this._getBanner());
+  }
+
+  closeDrawer() {
+    this.drawerRef.close();
+  }
+
+  private _fetchCategories() {
+    this.categoryService.all().subscribe((result: any) => {
+      if(result.rows.length > 0) {
+        this.categories = result.rows.map((cat: any) => ({
+          id: cat.id,
+          name: cat.name
+        }))
+      }
+    })
+  }
+
+  private _getDescription(): string {
+    const lines: Array<string> = this.story.content.map((content: any) => {
+      if(content.type === 'paragraph') {
+        return content.data.text;
+      }
+    });
+
+    return lines.join(" ").slice(0, 255);
+  }
+
+  private _getBanner(): string {
+    let first: string = '',
+      streached: string = '';
+    
+    for(let block of this.story.content) {
+      if(block.type !== 'image') {
+        continue;
+      }
+
+      if(!first) {
+        first = block.data.url;
+      }
+
+      if(block.data.stretched) {
+       streached = block.data.url;
+      }
+    }
+
+    return streached ? streached : first;
   }
 }

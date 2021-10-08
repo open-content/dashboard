@@ -1,0 +1,75 @@
+<app-edit-setting
+  title="API - {{type | titlecase}}"
+  description="Change your API {{type | titlecase}}"
+>
+  <div class="api">
+    <div class="row" *ngIf="type === 'access'">
+      <div class="col-lg-4 col-md-5">
+        <div class="box">
+          <p class="px12 uppercase weight700 title">Modify Access</p>
+          <div class="existing">
+            <span class="tag tag-lg"><span class="method">GET</span> /stories <span class="close"><i class="icon-x"></i></span></span>
+            <span class="tag tag-lg"><span class="method">GET</span> /categories <span class="close"><i class="icon-x"></i></span></span>
+            <span class="tag tag-lg"><span class="method">GET</span> /settings <span class="close"><i class="icon-x"></i></span></span>
+          </div>
+          <form class="form" [formGroup]="accessForm" (submit)="submitForm(accessForm);">
+            <div class="form-row">
+              <div class="row">
+                <div class="col-md-3">
+                  <nz-select style="width: 100%;" formControlName="method" name="method">
+                    <nz-option nzValue="get" nzLabel="GET"></nz-option>
+                    <nz-option nzValue="post" nzLabel="POST"></nz-option>
+                    <nz-option nzValue="put" nzLabel="PUT"></nz-option>
+                  </nz-select>
+                </div>
+                <div class="col-md-6">
+                  <nz-select style="width: 100%;" formControlName="module" name="module" nzPlaceHolder="Select module">
+                    <nz-option nzValue="stories" nzLabel="Stories"></nz-option>
+                    <nz-option nzValue="categories" nzLabel="Categories"></nz-option>
+                    <nz-option nzValue="users" nzLabel="Users"></nz-option>
+                    <nz-option nzValue="gallery" nzLabel="Gallery"></nz-option>
+                  </nz-select>
+                </div>
+                <div class="col-md-3">
+                  <button nz-button nzType="primary" [disabled]="!accessForm.valid" type="submit" nzShape="round">Add</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="type === 'domains'">
+      <div class="col-md-5 col-lg-4">
+        <div class="box">
+          <p class="px12 uppercase weight700 title">Manage Domains</p>
+          <div class="existing">
+            <span class="tag tag-lg"><span class="method">GET</span> /stories <span class="close"><i class="icon-x"></i></span></span>
+            <span class="tag tag-lg"><span class="method">GET</span> /categories <span class="close"><i class="icon-x"></i></span></span>
+            <span class="tag tag-lg"><span class="method">GET</span> /settings <span class="close"><i class="icon-x"></i></span></span>
+          </div>
+          <form class="form" [formGroup]="domianForm" (submit)="submitForm(domianForm);">
+            <div class="form-row">
+              <div class="row">
+                <div class="col-md-9">
+                  <div class="wrap custom-input">
+                    <input formControlName="domain" name="domain" type="text" nz-input placeholder="your.domain.com" />
+                    <div class="hint left">
+                      <nz-select formControlName="protocol" name="protocol" nzBorderless>
+                        <nz-option nzValue="http" nzLabel="http://"></nz-option>
+                        <nz-option nzValue="https" nzLabel="https://"></nz-option>
+                      </nz-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <button nz-button nzType="primary" [disabled]="!domianForm.valid" type="submit" nzShape="round">Add</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-edit-setting>

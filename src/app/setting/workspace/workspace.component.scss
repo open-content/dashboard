@@ -1,0 +1,27 @@
+@import '../../../styles/variables';
+
+.workspace {
+  .box {
+    margin-top: 15px;
+    padding: 24px;
+
+    .title {
+      margin-bottom: 24px;
+    }
+
+    .existing {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 106px;
+        margin-right: 32px;
+      }
+    }
+
+    .help {
+      margin-top: 14px;
+    }
+  }
+}

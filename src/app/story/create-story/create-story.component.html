@@ -2,10 +2,10 @@
   <div class="row">
     <div class="col-md-12">
       <div class="wrapper">
-        <h3><a routerLink="/stories">Stories</a> <span style="margin-left: 8px;" class="color-n50">/ new</span></h3>
+        <h3><a routerLink="/stories">Stories</a> <span style="margin-left: 8px;" class="color-n50">/ {{story.id || 'new'}}</span></h3>
         <div class="action">
           <label *ngIf="saving">Saving...</label>
-          <button nz-button nzType="primary">Publish</button>
+          <button nz-button nzType="primary" nzShape="round" (click)="openDrawer();">Publish</button>
           <button nz-button nzType="text" nzShape="circle"><i style="font-size: 18px;" class="icon-more-horizontal"></i></button>
         </div>
       </div>
@@ -22,4 +22,44 @@
 </div>
 <ng-template #gallery>
   <app-gallery-modal (onClose)="closeGallery();" (onSelectMedia)="onSelectMedia($event)"></app-gallery-modal>
+</ng-template>
+
+<ng-template #publishStory>
+  <div class="drawer publish-story">
+    <h2>Publish story</h2>
+    <p>Fill the details to add new category</p>
+
+    <div class="form">
+      <form [formGroup]="storyForm" (submit)="publishPost();">
+        
+        <div class="banner">
+          <img *ngIf="storyForm.get('banner').value" [src]="storyForm.get('banner').value" />
+        </div>
+
+        <div class="form-row">
+          <textarea rows="1" [nzAutosize]="{ minRows: 1, maxRows: 4 }" class="clean title" nz-input formControlName="title" name="title" placeholder="Story title"></textarea>
+        </div>
+        
+        <div class="form-row">
+          <textarea rows="2" maxlength="255" [nzAutosize]="{ minRows: 2, maxRows: 8 }" class="clean" nz-input formControlName="description" name="description" placeholder="Story description"></textarea>
+        </div>
+
+        <div class="form-row">
+          <label>Category</label>
+          <nz-select style="width: 100%;" nzShowSearch nzAllowClear nzPlaceHolder="Select category" formControlName="category" name="category">
+            <nz-option *ngFor="let cat of categories" [nzLabel]="cat.name" [nzValue]="cat.id"></nz-option>
+          </nz-select>
+        </div>
+
+        <div class="form-row">
+          <label>Tags</label>
+          <input nz-input name="slug" type="text" placeholder="Add a tag" />
+        </div>
+        <div class="form-row buttons">
+          <button nz-button nzType="primary" type="submit" nzShape="round">Publish story</button>
+          <button (click)="closeDrawer();" nz-button nzType="text" type="reset">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </ng-template>

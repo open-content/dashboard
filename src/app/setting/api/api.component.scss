@@ -1,0 +1,56 @@
+@import '../../../styles/variables';
+
+.api {
+  .box {
+    margin-top: 15px;
+    padding: 24px;
+
+    .title {
+      margin-bottom: 24px;
+    }
+
+    .custom-input {
+      .left {
+        left: 0;
+      }
+
+      input {
+        padding-left: 92px;
+      }
+    }
+
+    .existing {
+      margin-bottom: 18px;
+
+      .tag {
+        margin: 0 8px 8px 0;
+        position: relative;
+        padding-right: 32px;
+        
+        .close {
+          position: absolute;
+          right: 12px;
+          top: 50%;
+          transform: translateY(-50%);
+          cursor: pointer;
+          opacity: 0.5;
+          color: $e75;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        .method {
+          font-size: 0.9em;
+          font-weight: 700;
+          color: $n50;
+        }
+      }
+    }
+
+    .help {
+      margin-top: 14px;
+    }
+  }
+}

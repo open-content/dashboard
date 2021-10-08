@@ -1,5 +1,13 @@
 <div class="sidebar">
-  <div class="logo"></div>
+  <div class="logo">
+    <div class="relative">
+      <div class="avatar" [ngStyle]="{'background-image': 'url(' + (user.workspace.avatar || '/assets/images/icon.svg') + ')' }"></div>
+      <div class="info">
+        <h3>{{user.workspace.name}}</h3>
+        <p><strong>{{user.workspace.slug}}</strong>.ocms.dev</p>
+      </div>
+    </div>
+  </div>
   <div class="wrapper">
     <ul class="nav">
       <li routerLinkActive="active"><a routerLink="/overview"><i class="icon-pie-chart"></i> Overview</a></li>
